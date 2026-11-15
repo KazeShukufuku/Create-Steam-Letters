@@ -13,6 +13,9 @@ import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import net.createmod.ponder.api.registration.LangRegistryAccess;
 import net.createmod.ponder.foundation.PonderIndex;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Chinese {
 	public static void addTranslations(ChineseLangProvider provider) {
 		addOtherLang(provider);
@@ -419,10 +422,12 @@ public class Chinese {
 	private static void addPonderLang(ChineseLangProvider provider) {
 		SlPonderPlugin.register();
 		LangRegistryAccess access = PonderIndex.getLangAccess();
-		access.provideLang(CreateLettersSteam.MODID, provider::add);
+		Map<String, String> lang = new LinkedHashMap<>();
+		access.provideLang(CreateLettersSteam.MODID, lang::put);
 
-		provider.add(SlTranKeys.langKey("ponder.tag.steam_letters"), "机械动力: 来自蒸汽的信");
-		provider.add(SlTranKeys.langKey("ponder.tag.steam_letters.description"), "设备");
+		lang.put(SlTranKeys.langKey("ponder.tag.steam_letters"), "机械动力: 来自蒸汽的信");
+		lang.put(SlTranKeys.langKey("ponder.tag.steam_letters.description"), "设备");
+		lang.forEach(provider::add);
 	}
 
 	/**

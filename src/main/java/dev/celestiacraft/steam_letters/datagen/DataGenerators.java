@@ -39,7 +39,9 @@ public class DataGenerators {
 		boolean server = event.includeServer();
 
 		if (client) {
-			SlApis.REGISTRATE.addDataGenerator(ProviderType.LANG, English::addTranslations);
+			SlApis.REGISTRATE.addDataGenerator(ProviderType.LANG, (EnglishLangProvider provider) -> {
+				English.addTranslations(provider);
+			});
 			SlApis.REGISTRATE.addDataGenerator(ChineseLangProvider.TYPE, (ChineseLangProvider provider) -> {
 				Chinese.addTranslations(provider);
 			});
