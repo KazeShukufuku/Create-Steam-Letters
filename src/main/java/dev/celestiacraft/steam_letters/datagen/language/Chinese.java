@@ -17,6 +17,6 @@ public class Chinese {
 	}
 
 	private static void addItemLang(ChineseLangProvider provider) {
-		provider.add(SlItems.BRONZE_WHISK.asItem(), "AAA");
+		provider.addItem(SlItems.BRONZE_WHISK, "AAA");
 	}
 }
