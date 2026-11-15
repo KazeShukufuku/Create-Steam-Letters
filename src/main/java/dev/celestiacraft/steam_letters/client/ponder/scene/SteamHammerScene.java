@@ -151,7 +151,9 @@ public class SteamHammerScene {
 
 		scene.idle(15);
 		scene.world().hideIndependentSection(pipeIILink, Direction.UP);
-		scene.world().modifyBlock(pipe, (state) -> state.setValue(PipeBlock.UP, false), false);
+		scene.world().modifyBlock(pipe, (state) -> {
+			return state.setValue(PipeBlock.UP, false);
+		}, false);
 
 		scene.idle(10);
 		scene.world().setBlocks(hammerSelection, Blocks.AIR.defaultBlockState(), true);
