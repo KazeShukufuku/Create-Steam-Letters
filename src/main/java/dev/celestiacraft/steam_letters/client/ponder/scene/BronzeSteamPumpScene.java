@@ -1,7 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
 import net.createmod.ponder.api.element.ElementLink;
@@ -11,10 +10,8 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +48,7 @@ public class BronzeSteamPumpScene {
 
 		ElementLink<WorldSectionElement> boilerLink = scene.world().showIndependentSection(boiler, Direction.DOWN);
 		scene.world().showSection(engine, Direction.DOWN);
-		scene.world().modifyBlockEntityNBT(rotate, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(rotate, -16.0F);
 
 		scene.idle(10);
 		scene.overlay().showText(70)
@@ -120,10 +115,8 @@ public class BronzeSteamPumpScene {
 				.text("青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽");
 		scene.idle(30);
 
-		scene.world().modifyBlockEntityNBT(tankController, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(96000);
-			tank.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
-			nbt.put("TankContent", tank.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(tankControllerPos, FluidTankBlockEntity.class, (entity) -> {
+			entity.getTankInventory().setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
 		});
 		scene.idle(10);
 
@@ -139,15 +132,11 @@ public class BronzeSteamPumpScene {
 		for (int i = 0; i < 50; i++) {
 			temp2 += temp2Counter;
 			int temp3 = temp2;
-			scene.world().modifyBlockEntityNBT(tankController, FluidTankBlockEntity.class, (nbt) -> {
-				FluidTank tank = new FluidTank(96000);
-				tank.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000 - temp3));
-				nbt.put("TankContent", tank.writeToNBT(new CompoundTag()));
+			scene.world().modifyBlockEntity(tankControllerPos, FluidTankBlockEntity.class, (entity) -> {
+				entity.getTankInventory().setFluid(new FluidStack(SlFluids.STEAM.get(), 96000 - temp3));
 			});
-			scene.world().modifyBlockEntityNBT(tankControllerII, FluidTankBlockEntity.class, (nbt) -> {
-				FluidTank tank = new FluidTank(96000);
-				tank.setFluid(new FluidStack(SlFluids.STEAM.get(), temp3));
-				nbt.put("TankContent", tank.writeToNBT(new CompoundTag()));
+			scene.world().modifyBlockEntity(tankControllerPosII, FluidTankBlockEntity.class, (entity) -> {
+				entity.getTankInventory().setFluid(new FluidStack(SlFluids.STEAM.get(), temp3));
 			});
 			scene.idle(1);
 

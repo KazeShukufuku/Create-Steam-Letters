@@ -1,11 +1,10 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.simibubi.create.AllFluids;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import com.simibubi.create.foundation.ponder.element.BeltItemElement;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutBlockEntity;
-import io.netty.util.concurrent.UnorderedThreadPoolEventExecutor;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.scene.SceneBuilder;
@@ -13,13 +12,12 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.TagParser;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 /**
  * 高级注液器的 Ponder 场景.
@@ -71,23 +69,19 @@ public class AdvancedSpoutScene {
 
 		scene.overlay().showControls(spoutControl, Pointing.DOWN, 10)
 				.withItem(honeyBucket);
-		scene.world().modifyBlockEntityNBT(spout, AdvancedSpoutBlockEntity.class, (nbt) -> {
-			try {
-				CompoundTag tag = TagParser.parseTag("{Level:{Speed:0.25f,Target:1.0f,Value:1.0f},TankContent:{Amount:5000,FluidName:\"create:honey\"}}");
-				ListTag list = new ListTag();
-				list.add(tag);
-
-				nbt.put("Tanks", list);
-			} catch (CommandSyntaxException ignored) {
-			}
+		scene.world().modifyBlockEntity(spoutPos, AdvancedSpoutBlockEntity.class, (entity) -> {
+			entity.getBehaviour(SmartFluidTankBehaviour.TYPE)
+					.getPrimaryHandler()
+					.fill(new FluidStack(AllFluids.HONEY.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
 		});
-
 		scene.idle(20);
 		ElementLink<BeltItemElement> itemDrop = scene.world().createItemOnBelt(beltHead, Direction.DOWN, bottle);
 
 		scene.idle(7);
 		scene.world().stallBeltItem(itemDrop, true);
-		scene.world().modifyBlockEntityNBT(spout, AdvancedSpoutBlockEntity.class, (nbt) -> nbt.putInt("ProcessingTicks", 5));
+		scene.world().modifyBlockEntity(spoutPos, AdvancedSpoutBlockEntity.class, (entity) -> {
+			entity.processingTicks = 5;
+		});
 		scene.idle(5);
 
 		scene.world().removeItemsFromBelt(beltSpout);

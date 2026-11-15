@@ -1,7 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.boiler.SteamBoilerBlockEntity;
 import dev.celestiacraft.steam_letters.common.block.burner.AbstractBurnerBlock;
@@ -15,14 +14,12 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 /**
  * 蒸汽动力机组的 Ponder 场景: 蒸汽锅炉 / 固体燃烧室 / 流体燃烧室 / 蒸汽飞轮 / 飞轮引擎 共用.
@@ -85,21 +82,15 @@ public class SteamEngineScene {
 		scene.idle(80);
 
 		scene.world().showSection(waterTank, Direction.WEST);
-		scene.world().modifyBlockEntityNBT(waterTankForNbt, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(96000);
-			tank.setFluid(new FluidStack(Fluids.WATER, 96000));
-			nbt.put("TankContent", tank.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(waterTankController, FluidTankBlockEntity.class, (entity) -> {
+			entity.getTankInventory().setFluid(new FluidStack(Fluids.WATER, 96000));
 		});
 		scene.idle(5);
 
-		scene.world().modifyBlockEntityNBT(boilerForNbt, SteamBoilerBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(10000);
-			tank.setFluid(new FluidStack(Fluids.WATER, 10000));
-			nbt.put("TankContent", tank.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(boilerPos, SteamBoilerBlockEntity.class, (entity) -> {
+			entity.getTankInventory().setFluid(new FluidStack(Fluids.WATER, 10000));
 		});
-		scene.world().modifyBlockEntityNBT(waterPipeForNbt, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(waterPipeForNbt, -16.0F);
 		scene.world().showSection(waterPipe, Direction.NORTH);
 		scene.idle(10);
 
@@ -144,15 +135,11 @@ public class SteamEngineScene {
 		scene.world().hideIndependentSection(solidBurner, Direction.EAST);
 		scene.idle(10);
 
-		scene.world().modifyBlockEntityNBT(lavaPump, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(lavaPump, -16.0F);
 		ElementLink<WorldSectionElement> liquidBurner = scene.world().showIndependentSection(liquidBurnerSelection, Direction.DOWN);
 		scene.idle(5);
-		scene.world().modifyBlockEntityNBT(lavaTankController, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tank = new FluidTank(64000);
-			tank.setFluid(new FluidStack(Fluids.LAVA, 64000));
-			nbt.put("TankContent", tank.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(lavaTankControllerPos, FluidTankBlockEntity.class, (entity) -> {
+			entity.getTankInventory().setFluid(new FluidStack(Fluids.LAVA, 64000));
 		});
 		scene.idle(5);
 		scene.world().modifyBlock(liquidBurnerPos, (state) -> state.setValue(AbstractBurnerBlock.LIT, true), false);
@@ -184,9 +171,7 @@ public class SteamEngineScene {
 		}
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(rotating, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", -16.0F);
-		});
+		scene.world().setKineticSpeed(rotating, -16.0F);
 		scene.world().showSection(flywheel, Direction.EAST);
 		scene.idle(5);
 		scene.world().showSection(shaft, Direction.SOUTH);

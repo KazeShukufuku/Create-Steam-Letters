@@ -1,7 +1,6 @@
 package dev.celestiacraft.steam_letters.client.ponder.scene;
 
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.ponder.CreateSceneBuilder;
 import dev.celestiacraft.steam_letters.common.block.steam_saw.SteamSawBlockEntity;
 import dev.celestiacraft.steam_letters.common.register.SlFluids;
@@ -14,15 +13,13 @@ import net.createmod.ponder.api.scene.SceneBuildingUtil;
 import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.PipeBlock;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 /**
  * 蒸汽锯的 Ponder 场景.
@@ -70,10 +67,8 @@ public class SteamSawScene {
 
 		scene.world().showSection(saw, Direction.DOWN);
 
-		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(10000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 10000));
-			nbt.put("Steam", tankContent.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(sawPos, SteamSawBlockEntity.class, (entity) -> {
+			entity.setSteamStack(new FluidStack(SlFluids.STEAM.get(), 10000));
 		});
 
 		scene.idle(10);
@@ -91,9 +86,7 @@ public class SteamSawScene {
 				.text("它不仅需要更高的应力维持工作...");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(saw, KineticBlockEntity.class, (nbt) -> {
-			nbt.putFloat("Speed", 16.0F);
-		});
+		scene.world().setKineticSpeed(saw, 16.0F);
 		for (int i = 0; i < 8; i++) {
 			scene.effects().emitParticles(
 					util.vector().blockSurface(sawPos, Direction.NORTH),
@@ -109,10 +102,11 @@ public class SteamSawScene {
 				.text("...还需要源源不断的蒸汽供应");
 		scene.idle(40);
 
-		scene.world().modifyBlockEntityNBT(tankSelectionForNbt, FluidTankBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(96000);
-			tankContent.setFluid(new FluidStack(SlFluids.STEAM.get(), 96000));
-			nbt.put("TankContent", tankContent.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(tankController, FluidTankBlockEntity.class, (entity) -> {
+			entity.getTankInventory().fill(
+					new FluidStack(SlFluids.STEAM.get(), 96000),
+					IFluidHandler.FluidAction.EXECUTE
+			);
 		});
 
 		scene.world().showSection(tank, Direction.WEST);
@@ -147,13 +141,13 @@ public class SteamSawScene {
 		scene.world().flapFunnel(funnel, false);
 
 		scene.idle(10);
-		scene.world().modifyBlockEntityNBT(saw, SteamSawBlockEntity.class, (nbt) -> {
-			FluidTank tankContent = new FluidTank(0);
-			tankContent.setFluid(new FluidStack(Fluids.EMPTY, 0));
-			nbt.put("Steam", tankContent.writeToNBT(new CompoundTag()));
+		scene.world().modifyBlockEntity(sawPos, SteamSawBlockEntity.class, (entity) -> {
+			entity.setSteamStack(FluidStack.EMPTY);
 		});
 		scene.world().hideIndependentSection(pipeIILink, Direction.SOUTH);
-		scene.world().modifyBlock(pipe, (state) -> state.setValue(PipeBlock.DOWN, false), false);
+		scene.world().modifyBlock(pipe, (state) -> {
+			return state.setValue(PipeBlock.DOWN, false);
+		}, false);
 
 		scene.idle(10);
 		scene.overlay().showText(70)
