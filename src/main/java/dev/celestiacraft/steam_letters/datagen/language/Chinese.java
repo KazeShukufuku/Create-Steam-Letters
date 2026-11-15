@@ -10,14 +10,16 @@ import dev.celestiacraft.steam_letters.common.register.SlItems;
 import dev.celestiacraft.steam_letters.common.register.SlMaterials;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
+import lombok.experimental.UtilityClass;
 import net.createmod.ponder.api.registration.LangRegistryAccess;
 import net.createmod.ponder.foundation.PonderIndex;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@UtilityClass
 public class Chinese {
-	public static void addTranslations(ChineseLangProvider provider) {
+	public void addTranslations(ChineseLangProvider provider) {
 		addOtherLang(provider);
 		addBlockLang(provider);
 		addItemLang(provider);
@@ -44,13 +46,13 @@ public class Chinese {
 		addPonderLang(provider);
 	}
 
-	private static void addOtherLang(ChineseLangProvider provider) {
+	private void addOtherLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.THERMAL_PACK_TITLE, "§6热力色调包");
 		provider.add(SlTranKeys.THERMAL_PACK_DESCRIPTION, "§6将青铜和设备修改为热力膨胀的青铜配色");
 		provider.add(SlTranKeys.BASIC_TAB, "机械动力: 来自蒸汽的信");
 	}
 
-	private static void addBlockLang(ChineseLangProvider provider) {
+	private void addBlockLang(ChineseLangProvider provider) {
 		provider.addBlock(SlBlocks.ADVANCED_SPOUT, "高级注液器");
 		provider.addBlock(SlBlocks.BRONZE_BASIN, "青铜工作盆");
 		provider.addBlock(SlMaterials.BRONZE_BLOCK, "青铜块");
@@ -69,7 +71,7 @@ public class Chinese {
 		provider.addBlock(SlMaterials.TIN_BLOCK, "锡块");
 	}
 
-	private static void addItemLang(ChineseLangProvider provider) {
+	private void addItemLang(ChineseLangProvider provider) {
 		provider.addItem(SlMaterials.BRONZE_INGOT, "青铜锭");
 		provider.addItem(SlMaterials.BRONZE_PLATE, "青铜板");
 		provider.addItem(SlItems.BRONZE_WHISK, "青铜搅拌器");
@@ -77,19 +79,19 @@ public class Chinese {
 		provider.addItem(SlItems.INCOMPLETE_STEAM_MECHANISM, "蒸汽构件(半成品)");
 		provider.addItem(SlItems.SEALED_STEAM_CONTAINER, "密封蒸汽容器");
 		provider.addItem(SlItems.SH_STEAM_COMPONENT, "过热蒸汽组件");
-		provider.addItem(() -> SlFluids.STEAM.get().getBucket(), "蒸汽桶");
+		provider.addItem(SlFluids.STEAM.get().getBucket(), "蒸汽桶");
 		provider.addItem(SlItems.STEAM_MECHANISM, "蒸汽构件");
-		provider.addItem(() -> SlFluids.SUPERHEATED_STEAM.get().getBucket(), "过热蒸汽桶");
+		provider.addItem(SlFluids.SUPERHEATED_STEAM.get().getBucket(), "过热蒸汽桶");
 		provider.addItem(SlMaterials.TIN_INGOT, "锡锭");
 		provider.addItem(SlMaterials.TIN_NUGGET, "锡粒");
 	}
 
-	private static void addFluidLang(ChineseLangProvider provider) {
+	private void addFluidLang(ChineseLangProvider provider) {
 		provider.addFluid(SlFluids.STEAM, "蒸汽");
 		provider.addFluid(SlFluids.SUPERHEATED_STEAM, "过热蒸汽");
 	}
 
-	private static void addCommonLang(ChineseLangProvider provider) {
+	private void addCommonLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_CAPACITY), "机器内部能缓存 _%s mB_ 蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_CONDITION), "工作时:");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_CONSUMPTION), "消耗 _%s mB_ 蒸汽");
@@ -101,52 +103,52 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_COMMON_WATER_STEAM_CAPACITY), "内部水与蒸汽各 _%s mB_");
 	}
 
-	private static void addSteamHammerLang(ChineseLangProvider provider) {
+	private void addSteamHammerLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_HAMMER_SUMMARY), "可处理_压片_, _压缩_与_自动打包_配方");
 	}
 
-	private static void addSteamMixerLang(ChineseLangProvider provider) {
+	private void addSteamMixerLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_MIXER_SUMMARY), "处理搅拌配方");
 	}
 
-	private static void addSteamSawLang(ChineseLangProvider provider) {
+	private void addSteamSawLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_SAW_CONSUMPTION), "每份产出消耗 _%s mB_ 蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_SAW_PROCESSING_TIME), "单份耗时仅为动力锯的 _%s_");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_SAW_SUMMARY), "处理切割配方");
 	}
 
-	private static void addSteamPumpLang(ChineseLangProvider provider) {
+	private void addSteamPumpLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR1), "不需要应力, 也不消耗应力");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR2), "接上蒸汽管道或蒸汽容器后便会自行开始工作");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR3), "抽取侧管网混入其他流体时会整体停泵");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PUMP_SUMMARY), "只输送蒸汽, 且只有当管道中的介质是蒸汽时才会工作");
 	}
 
-	private static void addSteamPipeLang(ChineseLangProvider provider) {
+	private void addSteamPipeLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_BEHAVIOUR), "与青铜蒸汽泵搭配使用");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_PIPE_SUMMARY), "只允许蒸汽通过这条管道");
 	}
 
-	private static void addBronzeBasinLang(ChineseLangProvider provider) {
+	private void addBronzeBasinLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_BRONZE_DEPOT_CONTENTS), "青铜置物台内容");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BASIN_BEHAVIOUR1), "可以容纳多种流体和物品, 供搅拌与压块配方使用");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BASIN_BEHAVIOUR2), "一次可以处理更多配方, 不必频繁补充流体");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BASIN_SUMMARY), "每个流体槽可容纳 _%s mB_ 流体, 共 4 槽");
 	}
 
-	private static void addAdvancedSpoutLang(ChineseLangProvider provider) {
+	private void addAdvancedSpoutLang(ChineseLangProvider provider) {
 		provider.add(AdvancedSpoutScrollValueBehaviour.LANG_PARALLEL, "并行");
 		provider.add(AdvancedSpoutScrollValueBehaviour.LANG_VALUE_PARALLEL, "x%s");
 	}
 
-	private static void addAdvancedSpoutTooltipLang(ChineseLangProvider provider) {
+	private void addAdvancedSpoutTooltipLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_CAPACITY), "机器内部能缓存 _%s mB_ 流体");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_NO_STEAM), "不需要蒸汽与应力");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_PARALLEL), "拥有 _%s_ 并行 (可用扳手调整, 1–20)");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_ADVANCED_SPOUT_SUMMARY), "以 _%s_ tick 的速度完成一次注液");
 	}
 
-	private static void addGoggleLang(ChineseLangProvider provider) {
+	private void addGoggleLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_BOILER_STEAM_OUTPUT_RATE), "蒸汽产率");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_BOILER_WATER_STORED), "储水");
 
@@ -182,19 +184,19 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_MACHINE_STEAM), "蒸汽");
 	}
 
-	private static void addBronzeBoilerLang(ChineseLangProvider provider) {
+	private void addBronzeBoilerLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_NEEDS_BURNER), "需要正下方的燃烧室");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUMMARY), "把水加热成蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BRONZE_BOILER_SUPERHEATED), "满热量时产出过热蒸汽");
 	}
 
-	private static void addSolarBoilerLang(ChineseLangProvider provider) {
+	private void addSolarBoilerLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLAR_BOILER_LIGHT), "日照 _%s_, 人造光 _%s_ (光照 ≥ _%s_)");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLAR_BOILER_SUMMARY), "用光照把水变成蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLAR_BOILER_WEATHER), "雨天 _%s_, 雷雨 _%s_");
 	}
 
-	private static void addBurnerLang(ChineseLangProvider provider) {
+	private void addBurnerLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BURNER_CYCLE), "烧满需 _%s_ 秒, 冷却需 _%s_ 秒");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BURNER_MAX_HEAT), "最高热量 _%s_");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_BURNER_SUPERHEATED), "过热燃料升温 x_%s_, 上限 _%s_");
@@ -204,7 +206,7 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_SOLID_BURNER_SUMMARY), "为上方锅炉提供热量");
 	}
 
-	private static void addSteamEngineLang(ChineseLangProvider provider) {
+	private void addSteamEngineLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE), "飞轮引擎");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE_HEATUP), "预热进度");
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE_STATUS_HEATUP), "预热中");
@@ -214,7 +216,7 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.GOGGLE_STEAM_ENGINE_STRESS), "应力输出");
 	}
 
-	private static void addSteamEngineTooltipLang(ChineseLangProvider provider) {
+	private void addSteamEngineTooltipLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_CAPACITY), "内部可缓存 _%s mB_ 蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_CONSUMPTION), "满负荷消耗 _%s mB/t_ 蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_DIRECT_DRAW), "从相邻锅炉直抽时效率 _%s_");
@@ -225,14 +227,14 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_ENGINE_SUPERHEATED_HEADER), "过热蒸汽:");
 	}
 
-	private static void addJeiLang(ChineseLangProvider provider) {
+	private void addJeiLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_FLUID_FUEL), "流体燃料");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_HEATED), "加热");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_SOLID_FUEL), "固体燃料");
 		provider.add(SlTranKeys.langKey(SlTranKeys.JEI_SUPERHEATED), "超级加热");
 	}
 
-	private static void addSteamContainerLang(ChineseLangProvider provider) {
+	private void addSteamContainerLang(ChineseLangProvider provider) {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_EMPTY), "可容纳 _%s mB_ 蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_EXTRACT), "▸ 右键锅炉, 流体储罐或飞轮引擎以抽取蒸汽");
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_EXTRACT_MORE), "▸ 潜行右键以继续抽取");
@@ -241,7 +243,7 @@ public class Chinese {
 		provider.add(SlTranKeys.langKey(SlTranKeys.TOOLTIP_STEAM_CONTAINER_ONLY_STEAM), "仅能储存蒸汽与过热蒸汽");
 	}
 
-	private static void addConfigLang(ChineseLangProvider provider) {
+	private void addConfigLang(ChineseLangProvider provider) {
 		provider.add(ConfigModule.translationKey("advanced_spout"), "高级注液器");
 		provider.add(ConfigModule.translationKey("advanced_spout", "capacity"), "高级注液器的流体容量(mB)");
 		provider.add(ConfigModule.translationKey("advanced_spout", "parallel"), "高级注液器的默认并行数(可用长按滑条调整)");
@@ -317,7 +319,7 @@ public class Chinese {
 		provider.add(ConfigModule.translationKey("steam_saw", "steam_saw_parallel"), "蒸汽锯一次工作的配方并行数");
 	}
 
-	private static void addConfigCommentLang(ChineseLangProvider provider) {
+	private void addConfigCommentLang(ChineseLangProvider provider) {
 		comment(provider, ConfigModule.translationKey("advanced_spout", "capacity"), "高级注液器的流体缓存容量(mB).");
 		comment(provider, ConfigModule.translationKey("advanced_spout", "parallel"), """
 				新放置的高级注液器的默认并行数,
@@ -419,7 +421,7 @@ public class Chinese {
 	 * Ponder 内部只保存英文原文, provideLang 会把它们按 <模组 id>.ponder.<场景>.<键> 的形式写进语言文件,
 	 * 因此这里先交给 Ponder 生成, 再用中文覆盖标签名称.
 	 */
-	private static void addPonderLang(ChineseLangProvider provider) {
+	private void addPonderLang(ChineseLangProvider provider) {
 		SlPonderPlugin.register();
 		LangRegistryAccess access = PonderIndex.getLangAccess();
 		Map<String, String> lang = new LinkedHashMap<>();
@@ -436,7 +438,7 @@ public class Chinese {
 	 * Configured 会以 <界面翻译键>.comment 查询注释, 命中即显示译文, 未命中则回退到 toml 里的原文.
 	 * 因此这里的内容必须与配置文件中的中文注释逐条对应.
 	 */
-	private static void comment(ChineseLangProvider provider, String translationKey, String comment) {
+	private void comment(ChineseLangProvider provider, String translationKey, String comment) {
 		provider.add(translationKey + ".comment", comment);
 	}
 }
