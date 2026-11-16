@@ -3,6 +3,7 @@ package dev.celestiacraft.steam_letters.datagen.language;
 import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.api.SlTranKeys;
 import dev.celestiacraft.steam_letters.api.client.lang.EnglishLangProvider;
+import dev.celestiacraft.steam_letters.api.client.lang.SlPonderLang;
 import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpoutScrollValueBehaviour;
 import dev.celestiacraft.steam_letters.config.api.ConfigModule;
 import lombok.experimental.UtilityClass;
@@ -30,6 +31,7 @@ public class English {
 		addSteamContainerLang(provider);
 		addConfigLang(provider);
 		addConfigCommentLang(provider);
+		addPonderLang(provider);
 	}
 
 	private void addCommonLang(EnglishLangProvider provider) {
@@ -344,6 +346,96 @@ public class English {
 
 		comment(provider, ConfigModule.translationKey("advanced_spout", "capacity"), "Fluid capacity of an advanced spout (mB).");
 		comment(provider, ConfigModule.translationKey("advanced_spout", "parallel"), "Default parallel of newly placed advanced spouts.\n" + "Can still be changed per block with a wrench.");
+	}
+
+	private void addPonderLang(EnglishLangProvider provider) {
+		addPonderScene(provider, "advanced_spout",
+				"", // 高级注液器
+				"", // 高级注液器是一台升级过的注液器
+				""); // 它可以快速地一次处理多个物品
+		addPonderScene(provider, "big_boiler",
+				"", // 大型锅炉
+				"", // 一个锅炉太小, 产出蒸汽太少, 怎么办?
+				"", // 那就把多个锅炉以立方体形式摆在一起吧!
+				"", // 注意: 它的热源里至少有一个是处于超级燃烧形态的烈焰人燃烧室
+				"", // 此时锅炉需要更多的水...
+				""); // ...也会产出更多蒸汽
+		addPonderScene(provider, "bronze_steam_pump",
+				"", // 青铜蒸汽泵
+				"", // 平常使用蒸汽引擎时, 将飞轮引擎和锅炉放在一起会降低效率
+				"", // 在这里额外放置一个动力泵又太麻烦
+				"", // 这时就该青铜蒸汽泵出场了!
+				"", // 青铜蒸汽泵可以在不消耗应力的情况下运输蒸汽
+				"", // 回到最开始的问题
+				""); // 在锅炉与飞轮引擎之间放置青铜蒸汽泵即可恢复正常效率
+		addPonderScene(provider, "solar_boiler",
+				"", // 太阳能锅炉
+				"", // 太阳能锅炉提供了一种廉价的方式来获得蒸汽
+				"", // 为锅炉供水
+				"", // 有足够的光照等级...(越亮越好)
+				"", // ...真正的阳光是最好的
+				"", // 它就会开始生产蒸汽
+				""); // 连接与其他锅炉相同的飞轮装置, 即可输出应力
+		addPonderScene(provider, "steam_engine",
+				"", // 蒸汽动力源
+				"", // 想要利用蒸汽动力源, 先搭建一个锅炉以生产蒸汽
+				"", // 向锅炉里通入水
+				"", // 再在锅炉下方布置热源
+				"", // 热源可以是固体燃烧室...
+				"", // ...也可以是流体燃烧室
+				"", // 既有热源又有水时, 锅炉便能产出蒸汽
+				"", // 放上引擎与飞轮, 便能输出应力
+				"", // 值得注意的是, 在使用锅炉时有三位工程师不幸被烫伤, 他们分别是...
+				""); // ...所以我们改进了锅炉, 不会烫到你!
+		addPonderScene(provider, "steam_hammer",
+				"", // 蒸汽锻锤
+				"", // 蒸汽锻锤是一个用于批量处理物品的辊压机
+				"", // 相比普通辊压机, 它会消耗更多的应力...
+				"", // ...以及一定量的蒸汽
+				"", // 作为回报, 它可以一次性加工多个物品
+				""); // 蒸汽锻锤需要有蒸汽供应才能工作
+		addPonderScene(provider, "steam_mixer",
+				"", // 蒸汽搅拌器
+				"", // 蒸汽搅拌器是一台升级过的动力搅拌器
+				"", // 它不仅需要更高的应力维持工作...
+				"", // ...还需要源源不断的蒸汽供应
+				"", // 作为回报, 它可以一次处理多个物品
+				""); // 当蒸汽停止供应时, 蒸汽搅拌器将停止工作
+		addPonderScene(provider, "steam_saw",
+				"", // 蒸汽锯
+				"", // 蒸汽锯是一台升级过的动力锯
+				"", // 它不仅需要更高的应力维持工作...
+				"", // ...还需要源源不断的蒸汽供应
+				"", // 作为回报, 它可以一次处理多个物品
+				""); // 当蒸汽停止供应时, 蒸汽锯将停止工作, 并会卡住传送带
+
+		// 机械动力: 来自蒸汽的信
+		addPonderTag(provider, "ponder.tag.steam_letters", "");
+		// 设备
+		addPonderTag(provider, "ponder.tag.steam_letters.description", "");
+	}
+
+	private void addPonderScene(EnglishLangProvider provider, String scene, String... lines) {
+		int expected = SlPonderLang.count(scene);
+
+		if (expected != lines.length) {
+			throw new IllegalStateException("Ponder scene \"" + scene + "\" declares " + expected + " texts in code, but the English table writes " + lines.length);
+		}
+
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i].isEmpty()) {
+				continue;
+			}
+
+			String key = i == 0 ? "header" : "text_" + i;
+			provider.add(SlTranKeys.langKey("ponder." + scene + "." + key), lines[i]);
+		}
+	}
+
+	private void addPonderTag(EnglishLangProvider provider, String key, String text) {
+		if (!text.isEmpty()) {
+			provider.add(SlTranKeys.langKey(key), text);
+		}
 	}
 
 	private void comment(EnglishLangProvider provider, String translationKey, String comment) {
