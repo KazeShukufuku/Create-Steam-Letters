@@ -39,5 +39,37 @@ public class SlSequencedAssemblyRecipeGen extends SequencedAssemblyRecipeGen {
 						return recipe.require(SlFluidTags.SUPERHEATED_STEAM, 125);
 					});
 		});
+
+		create("sh_steam_component_1", (builder) -> {
+			return builder.require(SlMaterials.BRONZE_PLATE)
+					.transitionTo(SlItems.INCOMPLETE_SH_STEAM_COMPONENT)
+					.loops(2)
+					.addOutput(SlItems.SH_STEAM_COMPONENT, 1)
+					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
+						return recipe.require(SlItems.SH_STEAM_COMPONENT);
+					})
+					.addStep(FillingRecipe::new, (recipe) -> {
+						return recipe.require(SlFluidTags.STEAM, 500);
+					})
+					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
+						return recipe.require(SlMaterials.BRONZE_PLATE);
+					});
+		});
+
+		create("sh_steam_component_2", (builder) -> {
+			return builder.require(SlMaterials.BRONZE_PLATE)
+					.transitionTo(SlItems.INCOMPLETE_SH_STEAM_COMPONENT)
+					.loops(1)
+					.addOutput(SlItems.SH_STEAM_COMPONENT, 1)
+					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
+						return recipe.require(SlItems.SH_STEAM_COMPONENT);
+					})
+					.addStep(FillingRecipe::new, (recipe) -> {
+						return recipe.require(SlFluidTags.SUPERHEATED_STEAM, 125);
+					})
+					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
+						return recipe.require(SlMaterials.BRONZE_PLATE);
+					});
+		});
 	}
 }

@@ -12,6 +12,7 @@ import dev.celestiacraft.steam_letters.common.block.advanced_spout.AdvancedSpout
 import dev.celestiacraft.steam_letters.common.block.engine.SteamEngineBlock;
 import dev.celestiacraft.steam_letters.common.item.SteamContainerItem;
 import dev.celestiacraft.steam_letters.common.register.SlBlocks;
+import dev.celestiacraft.steam_letters.common.register.SlItems;
 import dev.celestiacraft.steam_letters.config.common.AdvancedSpoutConfig;
 import dev.celestiacraft.steam_letters.config.common.BronzeBasinConfig;
 import dev.celestiacraft.steam_letters.config.common.SolarBoilerConfig;
@@ -49,11 +50,15 @@ public class ItemTooltip {
 			return;
 		}
 
-		if (!(stack.getItem() instanceof BlockItem blockItem)) {
+		if (stack.is(SlItems.SH_STEAM_COMPONENT.get())) {
+			addSHSteamComponentTooltip(tooltip);
+		}
+
+		if (!(stack.getItem() instanceof BlockItem item)) {
 			return;
 		}
 
-		Block block = blockItem.getBlock();
+		Block block = item.getBlock();
 
 		if (stack.is(SlItemTags.STEAM_HAMMER)) {
 			addSteamHammerTooltip(tooltip, block);
@@ -364,7 +369,6 @@ public class ItemTooltip {
 		behaviour(tooltip, SlTranKeys.TOOLTIP_STEAM_PUMP_BEHAVIOUR3);
 	}
 
-	// TODO: 工作盆与"16 倍"的对比说明留给 Ponder
 	private static void addBronzeBasinTooltip(List<Component> tooltip) {
 		if (!requireShift(tooltip)) {
 			return;
@@ -377,15 +381,17 @@ public class ItemTooltip {
 		behaviour(tooltip, SlTranKeys.TOOLTIP_BRONZE_BASIN_BEHAVIOUR2);
 	}
 
-	private static void addSteamPipeTooltip(List<Component> tooltip) {
+	private static void addSHSteamComponentTooltip(List<Component> tooltip) {
 		if (!requireShift(tooltip)) {
 			return;
 		}
 
 		tooltip.add(Component.empty());
-		line(tooltip, SlTranKeys.TOOLTIP_STEAM_PIPE_SUMMARY);
+		line(tooltip, SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_SUMMARY);
 		tooltip.add(Component.empty());
-		behaviour(tooltip, SlTranKeys.TOOLTIP_STEAM_PIPE_BEHAVIOUR);
+		behaviour(tooltip, SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR1);
+		behaviour(tooltip, SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR2);
+		behaviour(tooltip, SlTranKeys.TOOLTIP_SH_STEAM_COMPONENT_BEHAVIOUR3);
 	}
 
 	private static void addBronzeDepot(List<Component> tooltip) {

@@ -6,7 +6,6 @@ import dev.celestiacraft.steam_letters.api.SlApis;
 import dev.celestiacraft.steam_letters.client.models.ItemModelGen;
 import dev.celestiacraft.steam_letters.common.item.SteamContainerItem;
 import dev.celestiacraft.steam_letters.common.item.SteamMechanismItem;
-import dev.celestiacraft.steam_letters.common.item.SuperHeatedSteamComponentItem;
 import dev.celestiacraft.steam_letters.tags.SlItemTags;
 import net.minecraft.world.item.Item;
 
@@ -16,7 +15,8 @@ public class SlItems {
 	public static final ItemEntry<SteamContainerItem> EMPTY_STEAM_CONTAINER;
 	public static final ItemEntry<SteamContainerItem> SEALED_STEAM_CONTAINER;
 	public static final ItemEntry<Item> BRONZE_WHISK;
-	public static final ItemEntry<SuperHeatedSteamComponentItem> SH_STEAM_COMPONENT;
+	public static final ItemEntry<Item> SH_STEAM_COMPONENT;
+	public static final ItemEntry<SequencedAssemblyItem> INCOMPLETE_SH_STEAM_COMPONENT;
 
 	static {
 		STEAM_MECHANISM = SlApis.REGISTRATE.item("steam_mechanism", SteamMechanismItem::new)
@@ -50,9 +50,14 @@ public class SlItems {
 				.lang("Bronze Whisk")
 				.register();
 
-		SH_STEAM_COMPONENT = SlApis.REGISTRATE.item("sh_steam_component", SuperHeatedSteamComponentItem::new)
+		SH_STEAM_COMPONENT = SlApis.REGISTRATE.item("sh_steam_component", Item::new)
 				.model(ItemModelGen.generated("item/sh_steam_component"))
 				.lang("Superheated Steam Component")
+				.register();
+
+		INCOMPLETE_SH_STEAM_COMPONENT = SlApis.REGISTRATE.item("incomplete_sh_steam_component", SequencedAssemblyItem::new)
+				.model(ItemModelGen.generated("item/incomplete_sh_steam_component"))
+				.lang("Incomplete Superheated Steam Component")
 				.register();
 	}
 
