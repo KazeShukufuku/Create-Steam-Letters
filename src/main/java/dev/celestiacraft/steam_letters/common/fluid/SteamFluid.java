@@ -1,7 +1,10 @@
 package dev.celestiacraft.steam_letters.common.fluid;
 
 import com.tterrag.registrate.builders.FluidBuilder;
+import dev.celestiacraft.steam_letters.tags.SlFluidTags;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.ModList;
 import org.joml.Vector3f;
@@ -41,10 +44,22 @@ public class SteamFluid extends FluidType {
 	}
 
 	@Override
-	public int getTemperature() {
-		return ModList.get().isLoaded("gtceu")
-				? 373
-				: 114514;
+	public int getTemperature(FluidStack stack) {
+		Fluid fluid = stack.getFluid();
+
+		if (!ModList.get().isLoaded("gtceu")) {
+			return 114514;
+		}
+
+		if (fluid.is(SlFluidTags.STEAM)) {
+			return 373;
+		}
+
+		if (fluid.is(SlFluidTags.SUPERHEATED_STEAM)) {
+			return 573;
+		}
+
+		return super.getTemperature(stack);
 	}
 
 	@Override
