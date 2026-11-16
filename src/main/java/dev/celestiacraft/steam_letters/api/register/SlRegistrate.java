@@ -124,7 +124,7 @@ public class SlRegistrate extends CreateRegistrate {
 
 	public <R extends ProcessingRecipe<?>> RecipeTypeBuilder fuelRecipe(String name, ProcessingRecipeBuilder.ProcessingRecipeFactory<R> factory) {
 		return recipe(name, () -> {
-			return new ProcessingRecipeSerializer<R>(factory);
+			return new ProcessingRecipeSerializer<>(factory);
 		});
 	}
 
