@@ -21,7 +21,7 @@ public class SolarBoilerScene {
 	public static void usage(SceneBuilder builder, SceneBuildingUtil util) {
 		CreateSceneBuilder scene = new CreateSceneBuilder(builder);
 
-		scene.title("solar_boiler", "Solar Boiler");
+		scene.title("solar_boiler", "太阳能锅炉");
 
 		BlockPos boilerScaffoldingPos = new BlockPos(1, 1, 1);
 		BlockPos boilerPos = new BlockPos(1, 2, 1);
@@ -33,7 +33,6 @@ public class SolarBoilerScene {
 
 		Selection boilerSelectionForShow = util.select().fromTo(boilerScaffoldingPos, boilerPos);
 		Selection water = util.select().fromTo(waterScaffoldingPos, waterTankUpperPos);
-		Selection waterTank = util.select().position(waterTankLowerPos);
 		Selection pump = util.select().position(pumpPos);
 		Selection boilerSelectionForNbt = util.select().fromTo(boilerScaffoldingPos, boilerPos);
 		Selection clock = util.select().fromTo(0, 1, 4, 0, 2, 4);
@@ -50,7 +49,7 @@ public class SolarBoilerScene {
 				.pointAt(util.vector().centerOf(boilerPos))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("The Solar Boiler offers a cheap way to obtain steam");
+				.text("太阳能锅炉提供了一种廉价的方式来获得蒸汽");
 		scene.idle(80);
 
 		scene.world().showSection(water, Direction.WEST);
@@ -67,14 +66,14 @@ public class SolarBoilerScene {
 				.pointAt(util.vector().centerOf(boilerPos))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("Feed water into the boiler");
+				.text("为锅炉供水");
 		scene.idle(60);
 
 		scene.idle(10);
 		scene.overlay().showText(60)
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("With enough light...(the brighter the better)");
+				.text("有足够的光照等级...(越亮越好)");
 		scene.idle(70);
 
 		scene.world().showSection(clock, Direction.DOWN);
@@ -84,7 +83,7 @@ public class SolarBoilerScene {
 				.pointAt(util.vector().centerOf(clockPos))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("...and real sunlight is best");
+				.text("...真正的阳光是最好的");
 		scene.idle(90);
 
 		scene.world().modifyBlockEntity(boilerPos, SolarBoilerBlockEntity.class, (entity) -> {
@@ -97,7 +96,7 @@ public class SolarBoilerScene {
 				.pointAt(util.vector().centerOf(boilerPos))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("it starts producing steam");
+				.text("它就会开始生产蒸汽");
 		scene.idle(80);
 
 		scene.world().showSection(engineAndFlywheel, Direction.NORTH);
@@ -108,7 +107,7 @@ public class SolarBoilerScene {
 				.pointAt(util.vector().centerOf(1, 2, 3))
 				.placeNearTarget()
 				.attachKeyFrame()
-				.text("Attach the same flywheel setup as any other boiler to get stress out");
+				.text("连接与其他锅炉相同的飞轮装置, 即可输出应力");
 		scene.idle(80);
 
 		scene.markAsFinished();
