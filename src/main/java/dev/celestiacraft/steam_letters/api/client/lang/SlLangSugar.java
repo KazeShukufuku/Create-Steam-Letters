@@ -12,8 +12,16 @@ public interface SlLangSugar {
 		add(item.getDescriptionId(), name);
 	}
 
+	default void addItem(NonNullSupplier<? extends Item> item, String name) {
+		addItem(item.get(), name);
+	}
+
 	default void addBlock(Block block, String name) {
 		add(block.getDescriptionId(), name);
+	}
+
+	default void addBlock(NonNullSupplier<? extends Block> block, String name) {
+		addBlock(block.get(), name);
 	}
 
 	default void addFluid(Fluid fluid, String name) {
