@@ -11,6 +11,7 @@ import dev.celestiacraft.steam_letters.api.machine.SteamEngineSpec;
 import dev.celestiacraft.steam_letters.common.register.SlBlockEntities;
 import dev.celestiacraft.steam_letters.common.register.SlItems;
 import dev.celestiacraft.steam_letters.utils.BlockFluidInteractions;
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -41,6 +42,7 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 
 	private final SteamEngineSpec spec;
 	private final Supplier<BlockEntityType<? extends SteamBoilerBlockEntity>> customBlockEntityType;
+	@Getter
 	private final ResourceLocation textureDirectory;
 
 	public SteamBoilerBlock(Properties properties, SteamEngineSpec spec) {
@@ -61,13 +63,6 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 	@Override
 	public SteamEngineSpec getEngineSpec() {
 		return spec;
-	}
-
-	/**
-	 * 连接纹理所在的贴图目录, 为空表示这个方块不套连接纹理.
-	 */
-	public ResourceLocation getTextureDirectory() {
-		return textureDirectory;
 	}
 
 	@Override
@@ -116,7 +111,10 @@ public class SteamBoilerBlock extends FluidTankBlock implements ISteamEngineBloc
 			}
 			controller.setComponent(true);
 			if (!player.isCreative()) {
-				stack.shrink(1);
+				ItemStack component = SlItems.SH_STEAM_COMPONENT.asStack();
+				if (!player.getInventory().add(component)) {
+					Block.popResource(level, controller.getBlockPos(), component);
+				}
 			}
 			return true;
 		}

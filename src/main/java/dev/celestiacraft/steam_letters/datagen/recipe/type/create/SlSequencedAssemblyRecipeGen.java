@@ -8,6 +8,7 @@ import dev.celestiacraft.steam_letters.CreateLettersSteam;
 import dev.celestiacraft.steam_letters.common.register.SlItems;
 import dev.celestiacraft.steam_letters.common.register.SlMaterials;
 import dev.celestiacraft.steam_letters.tags.SlFluidTags;
+import dev.celestiacraft.steam_letters.tags.SlItemTags;
 import net.minecraft.data.PackOutput;
 
 public class SlSequencedAssemblyRecipeGen extends SequencedAssemblyRecipeGen {
@@ -41,34 +42,34 @@ public class SlSequencedAssemblyRecipeGen extends SequencedAssemblyRecipeGen {
 		});
 
 		create("sh_steam_component_1", (builder) -> {
-			return builder.require(SlMaterials.BRONZE_PLATE)
+			return builder.require(SlItemTags.BRONZE_PLATES)
 					.transitionTo(SlItems.INCOMPLETE_SH_STEAM_COMPONENT)
 					.loops(2)
 					.addOutput(SlItems.SH_STEAM_COMPONENT, 1)
 					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
-						return recipe.require(SlItems.SH_STEAM_COMPONENT);
+						return recipe.require(SlItems.STEAM_MECHANISM);
 					})
 					.addStep(FillingRecipe::new, (recipe) -> {
 						return recipe.require(SlFluidTags.STEAM, 500);
 					})
 					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
-						return recipe.require(SlMaterials.BRONZE_PLATE);
+						return recipe.require(SlItemTags.BRONZE_PLATES);
 					});
 		});
 
 		create("sh_steam_component_2", (builder) -> {
-			return builder.require(SlMaterials.BRONZE_PLATE)
+			return builder.require(SlItemTags.BRONZE_PLATES)
 					.transitionTo(SlItems.INCOMPLETE_SH_STEAM_COMPONENT)
 					.loops(1)
 					.addOutput(SlItems.SH_STEAM_COMPONENT, 1)
 					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
-						return recipe.require(SlItems.SH_STEAM_COMPONENT);
+						return recipe.require(SlItems.STEAM_MECHANISM);
 					})
 					.addStep(FillingRecipe::new, (recipe) -> {
 						return recipe.require(SlFluidTags.SUPERHEATED_STEAM, 125);
 					})
 					.addStep(DeployerApplicationRecipe::new, (recipe) -> {
-						return recipe.require(SlMaterials.BRONZE_PLATE);
+						return recipe.require(SlItemTags.BRONZE_PLATES);
 					});
 		});
 	}
