@@ -42,6 +42,7 @@ public class CreateLettersSteam {
 		SlParticles.init(bus);
 		SlRecipeTypes.init();
 		SlCreativeTabs.init(bus);
+		SlConditionTypes.init();
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> {
 			return () -> {

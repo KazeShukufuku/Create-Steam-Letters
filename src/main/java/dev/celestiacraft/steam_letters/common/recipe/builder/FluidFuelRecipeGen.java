@@ -6,7 +6,10 @@ import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import dev.celestiacraft.steam_letters.common.register.SlRecipeTypes;
 import dev.celestiacraft.steam_letters.common.recipe.type.FluidFuelRecipe;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.crafting.conditions.ICondition;
@@ -38,12 +41,28 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen {
 			this.builder = builder;
 		}
 
-		public FluidFuelBuilder fluid(@NotNull Fluid fluid) {
+		public FluidFuelBuilder fluid(Fluid fluid) {
 			return ingredient(FluidIngredient.fromFluid(fluid, FluidFuelRecipe.FUEL_AMOUNT));
 		}
 
-		public FluidFuelBuilder fluid(@NotNull TagKey<Fluid> tag) {
+		public FluidFuelBuilder fluid(ResourceLocation fluid) {
+			return fluid(BuiltInRegistries.FLUID.get(fluid));
+		}
+
+		public FluidFuelBuilder fluid(String fluid) {
+			return fluid(parse(fluid));
+		}
+
+		public FluidFuelBuilder fluidTag(TagKey<Fluid> tag) {
 			return ingredient(FluidIngredient.fromTag(tag, FluidFuelRecipe.FUEL_AMOUNT));
+		}
+
+		public FluidFuelBuilder fluidTag(ResourceLocation tag) {
+			return fluidTag(FluidTags.create(tag));
+		}
+
+		public FluidFuelBuilder fluidTag(String tag) {
+			return fluidTag(parse(tag));
 		}
 
 		private FluidFuelBuilder ingredient(@NotNull FluidIngredient ingredient) {
@@ -54,6 +73,10 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen {
 		public FluidFuelBuilder time(int ticks) {
 			builder.duration(ticks);
 			return this;
+		}
+
+		public FluidFuelBuilder timeSeconds(int seconds) {
+			return time(20 * seconds);
 		}
 
 		public FluidFuelBuilder superheated(boolean superheated) {
@@ -76,7 +99,7 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen {
 			return this;
 		}
 
-		public FluidFuelBuilder condition(@NotNull ICondition condition) {
+		public FluidFuelBuilder withCondition(@NotNull ICondition condition) {
 			builder.withCondition(condition);
 			return this;
 		}
@@ -84,6 +107,16 @@ public abstract class FluidFuelRecipeGen extends ProcessingRecipeGen {
 		private ProcessingRecipeBuilder<FluidFuelRecipe> unwrap() {
 			FluidFuelRecipe.markNextSuperheated(superheated);
 			return builder;
+		}
+
+		private static ResourceLocation parse(String location) {
+			ResourceLocation parsed = ResourceLocation.tryParse(location);
+
+			if (parsed == null) {
+				throw new IllegalArgumentException("Invalid resource location: " + location);
+			}
+
+			return parsed;
 		}
 	}
 }
