@@ -3,6 +3,7 @@ package dev.celestiacraft.steam_letters.datagen.advancement;
 import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 import dev.celestiacraft.steam_letters.api.SlApis;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.FrameType;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -63,9 +64,13 @@ public class SlAdvancementBuilder {
 	 * 父进度. 拿不到父模组成就对象时只能用 id 指定.
 	 */
 	public SlAdvancementBuilder parent(ResourceLocation parent) {
-		builder.parent(parent);
+		builder.parent(placeholder(parent));
 		parentSet = true;
 		return this;
+	}
+
+	private static Advancement placeholder(ResourceLocation id) {
+		return new Advancement(id, null, null, AdvancementRewards.EMPTY, Map.of(), new String[0][], false);
 	}
 
 	public SlAdvancementBuilder parent(String parent) {
