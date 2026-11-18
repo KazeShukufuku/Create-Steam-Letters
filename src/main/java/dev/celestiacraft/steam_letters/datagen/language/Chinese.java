@@ -79,6 +79,7 @@ public class Chinese {
 		provider.addItem(SlItems.INCOMPLETE_STEAM_MECHANISM, "蒸汽构件(半成品)");
 		provider.addItem(SlItems.SEALED_STEAM_CONTAINER, "密封蒸汽容器");
 		provider.addItem(SlItems.SH_STEAM_COMPONENT, "过热蒸汽组件");
+		provider.addItem(SlItems.INCOMPLETE_SH_STEAM_COMPONENT, "过热蒸汽组件(半成品)");
 		provider.addItem(SlFluids.STEAM.get().getBucket(), "蒸汽桶");
 		provider.addItem(SlItems.STEAM_MECHANISM, "蒸汽构件");
 		provider.addItem(SlFluids.SUPERHEATED_STEAM.get().getBucket(), "过热蒸汽桶");
